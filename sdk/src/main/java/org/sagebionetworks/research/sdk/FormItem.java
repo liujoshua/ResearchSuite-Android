@@ -20,7 +20,7 @@ package org.sagebionetworks.research.sdk;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import org.sagebionetworks.research.sdk.result.Result;
+import org.sagebionetworks.research.interfaces.task.Result;
 
 
 public interface FormItem {

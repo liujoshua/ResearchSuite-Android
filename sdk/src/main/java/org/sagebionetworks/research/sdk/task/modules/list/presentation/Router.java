@@ -15,28 +15,22 @@
  *
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package org.sagebionetworks.research.sdk.task.modules.list.presentation;
 
-buildscript {
-    repositories {
-        jcenter()
+import android.content.Context;
+import android.support.annotation.NonNull;
+
+/**
+ * Created by jyliu on 9/20/2017.
+ */
+
+public class Router {
+    public void presentTaskListInterface(Context context) {
+
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+    public void presentPerformTaskInterface(@NonNull Context context, @NonNull String taskId) {
+        PerformTaskActivity.createCallingIntent(context, taskId);
+        context.startActivities(null);
     }
-}
-
-allprojects {
-    repositories {
-        jcenter()
-        mavenLocal()
-        maven { url 'https://maven.google.com' }
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }

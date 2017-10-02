@@ -15,28 +15,23 @@
  *
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package org.sagebionetworks.research.interfaces.task.step;
 
-buildscript {
-    repositories {
-        jcenter()
+import android.support.annotation.NonNull;
+
+
+public interface Step {
+    class Action {
+        public static final String NEXT = "next";
+        public static final String NONE = "none";
+        public static final String PREVIOUS = "previous";
+        public static final String END = "end";
+        public static final String REFRESH = "refresh";
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
+    @NonNull
+    String getIdentifier();
 
-allprojects {
-    repositories {
-        jcenter()
-        mavenLocal()
-        maven { url 'https://maven.google.com' }
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
+    @NonNull
+    String getTitle();
 }

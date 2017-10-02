@@ -15,31 +15,42 @@
  *
  */
 
-package org.sagebionetworks.research.sdk.step;
+package org.sagebionetworks.research.interfaces.task;
+
+import java.util.Date;
 
 import android.support.annotation.NonNull;
-import org.sagebionetworks.research.interfaces.task.step.Step;
+import org.sagebionetworks.research.interfaces.task.Result;
 
 
-public class StepBase implements Step {
+public class ResultBase implements Result {
     @NonNull
     private final String identifier;
     @NonNull
-    private final String title;
+    private final Date startDate;
+    @NonNull
+    private final Date endDate;
 
-    public StepBase(@NonNull String identifier, @NonNull String title) {
+    public ResultBase(@NonNull String identifier, @NonNull Date startDate, @NonNull Date endDate) {
         this.identifier = identifier;
-        this.title = title;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    @NonNull
+    @Override public String getIdentifier() {
+        return identifier;
     }
 
     @Override
     @NonNull
-    public String getIdentifier() {
-        return identifier;
+    public Date getStartDate() {
+        return startDate;
     }
 
+    @Override
     @NonNull
-    @Override public String getTitle() {
-        return title;
+    public Date getEndDate() {
+        return endDate;
     }
 }

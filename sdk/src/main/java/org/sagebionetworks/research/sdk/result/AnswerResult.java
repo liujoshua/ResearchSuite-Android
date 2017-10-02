@@ -17,12 +17,13 @@
 
 package org.sagebionetworks.research.sdk.result;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import org.sagebionetworks.research.interfaces.task.ResultBase;
 
 
 public class AnswerResult<T> extends ResultBase {
@@ -31,12 +32,13 @@ public class AnswerResult<T> extends ResultBase {
     @NonNull
     private final Map<String, T> metadata;
 
-    public AnswerResult(@NonNull Date startDate, @NonNull Date endDate, @NonNull T answer) {
-        this(startDate, endDate, answer, new HashMap<String, T>());
+    public AnswerResult(@NonNull String identifier, @NonNull Date startDate, @NonNull Date endDate, @NonNull T answer) {
+        this(identifier, startDate, endDate, answer, new HashMap<String, T>());
     }
 
-    public AnswerResult(@NonNull Date startDate, @NonNull Date endDate, @NonNull T answer, @NonNull Map<String, T> metadata) {
-        super(startDate, endDate);
+    public AnswerResult(@NonNull String identifier, @NonNull Date startDate, @NonNull Date endDate, @NonNull T answer,
+            @NonNull Map<String, T> metadata) {
+        super(identifier, startDate, endDate);
 
         this.answer = answer;
         this.metadata = metadata;
@@ -54,12 +56,18 @@ public class AnswerResult<T> extends ResultBase {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         AnswerResult<?> that = (AnswerResult<?>) o;
 
-        if (!answer.equals(that.answer)) return false;
+        if (!answer.equals(that.answer)) {
+            return false;
+        }
         return metadata.equals(that.metadata);
 
     }

@@ -15,28 +15,31 @@
  *
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package org.sagebionetworks.research.interfaces.task.step;
 
-buildscript {
-    repositories {
-        jcenter()
+import android.view.View;
+import org.sagebionetworks.research.interfaces.task.Progress;
+
+/**
+ * Created by jyliu on 9/15/2017.
+ */
+
+public interface StepViewInput {
+    enum ChangeType {
+        ActivityCreate,
+        ActivityPause,
+        ActivityResume,
+        ActivityStop,
+        StepChanged
     }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+    enum Transition {
+        Next,
+        Previous
     }
-}
 
-allprojects {
-    repositories {
-        jcenter()
-        mavenLocal()
-        maven { url 'https://maven.google.com' }
-    }
-}
+    void showStep(StepModel step, Transition transition);
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+    void showView(View view);
+
 }

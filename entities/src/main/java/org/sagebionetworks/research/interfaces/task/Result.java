@@ -15,28 +15,29 @@
  *
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package org.sagebionetworks.research.interfaces.task;
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+import java.util.Date;
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
+import android.support.annotation.NonNull;
 
-allprojects {
-    repositories {
-        jcenter()
-        mavenLocal()
-        maven { url 'https://maven.google.com' }
-    }
-}
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+public interface Result {
+    /**
+     * @return identifier associated with the task, step, or asyncronous action.
+     */
+    @NonNull
+    String getIdentifier();
+
+    /**
+     * @return start date timestamp
+     */
+    @NonNull
+    Date getStartDate();
+
+    /**
+     * @return end date timestamp
+     */
+    @NonNull
+    Date getEndDate();
 }
