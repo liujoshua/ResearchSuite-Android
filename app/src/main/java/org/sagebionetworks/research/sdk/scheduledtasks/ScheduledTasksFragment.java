@@ -17,45 +17,28 @@
 
 package org.sagebionetworks.research.sdk.scheduledtasks;
 
+
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.sagebionetworks.research.app.R;
-
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Created by liujoshua on 10/2/2017.
  */
 
 public class ScheduledTasksFragment extends Fragment {
-    private SwipeRefreshLayout swipeContainer;
-    private RecyclerView recyclerView;
+    public ScheduledTasksFragment() {
+        checkState(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
-        return inflater.inflate(R.layout.scheduled_tasks_fragment, container, false);
+        return inflater.inflate(org.sagebionetworks.research.sdk.R.layout
+                .rsi_fragment_scheduled_tasks, container, false);
     }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // TODO: might need to add logic to prevent multiple requests
-            }
-        });
-
-    }
-
 }
