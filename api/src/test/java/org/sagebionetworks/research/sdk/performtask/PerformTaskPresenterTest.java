@@ -15,26 +15,22 @@
  *
  */
 
-package org.sagebionetworks.research.performtask.data;
+package org.sagebionetworks.research.sdk.performtask;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
- * Created by liujoshua on 10/11/2017.
+ * Created by liujoshua on 10/13/2017.
  */
-@Entity(tableName = "tasks")
-public class TaskEntity {
-    @NonNull
-    @PrimaryKey
-    private String identifier;
-
-    public String getIdentifier() {
-        return identifier;
+public class PerformTaskPresenterTest {
+    @Test
+    public void handleAction() throws Exception {
     }
 
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
+    @Test
+    public void showNextStep() throws Exception {
     }
+
 }
