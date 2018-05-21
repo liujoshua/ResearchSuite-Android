@@ -32,13 +32,66 @@
 
 package org.sagebionetworks.research.presentation.model;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.google.auto.value.AutoValue;
-import com.google.gson.Gson;
-import com.google.gson.TypeAdapter;
+import com.google.common.collect.ImmutableMap;
+import com.ryanharter.auto.value.parcel.ParcelAdapter;
+
+import org.sagebionetworks.research.presentation.DisplayString;
+import org.sagebionetworks.research.presentation.model.parcelable.LongToDisplayStringAdapter;
+import org.threeten.bp.Duration;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
 
 @AutoValue
 public abstract class ActiveUIStepView implements StepView {
-    public static TypeAdapter<ActiveUIStepView> typeAdapter(Gson gson) {
-        return new AutoValue_ActiveUIStepView.GsonTypeAdapter(gson);
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+        public abstract ActiveUIStepView build();
+
+        public abstract Builder setDetail(@Nullable DisplayString description);
+
+        public abstract Builder setDuration(@Nullable Duration duration);
+
+        public abstract Builder setIdentifier(@NonNull String identifier);
+
+        public abstract Builder setNavDirection(@NavDirection int navDirection);
+
+        public abstract Builder setSpokenInstructions(@NonNull Map<Long, DisplayString> spokenInstructions);
+
+        public abstract Builder setStepActionViews(@NonNull Set<StepActionView> stepActionViews);
+
+        public abstract Builder setTitle(@Nullable DisplayString title);
     }
+
+    /**
+     * @return builder for an ActiveUIStepView with default NavDirection.SHIFT_LEFT
+     */
+    public static Builder builder() {
+        return new AutoValue_ActiveUIStepView.Builder()
+                .setNavDirection(NavDirection.SHIFT_LEFT)
+                .setSpokenInstructions(Collections.emptyMap())
+                .setStepActionViews(Collections.emptySet());
+    }
+
+//    public static ActiveUIStepView create(@NonNull String identifier, @Nullable DisplayString detail,
+//            int navDirection, @NonNull Set<StepActionView> stepActionViews, @Nullable DisplayString title,
+//            @Nullable Duration duration, @NonNull Map<Long, DisplayString> spokenInstructions) {
+//        return new AutoValue_ActiveUIStepView(detail, identifier, navDirection, ImmutableSet.copyOf(stepActionViews),
+//                title, duration, ImmutableMap.copyOf(spokenInstructions));
+//    }
+
+    @Nullable
+    public abstract Duration getDuration();
+
+    @NonNull
+    @ParcelAdapter(LongToDisplayStringAdapter.class)
+    public abstract ImmutableMap<Long, DisplayString> getSpokenInstructions();
+
+    public abstract Builder toBuilder();
 }

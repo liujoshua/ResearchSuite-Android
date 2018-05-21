@@ -38,8 +38,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.SOURCE)
-@StringDef({ActionType.FORWARD})
+@StringDef({ActionType.FORWARD, ActionType.BACKWARD, ActionType.LEARN_MORE})
 public @interface ActionType {
     String FORWARD = "next";
     String BACKWARD = "back";
+    String LEARN_MORE= "learnMore";
 }

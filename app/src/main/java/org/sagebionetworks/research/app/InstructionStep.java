@@ -75,6 +75,9 @@ public abstract class InstructionStep implements ActiveUIStep {
 
         @NonNull
         public abstract Builder setBackgroundAudioRequired(boolean isBackgroundAudioRequired);
+
+        @NonNull
+        public abstract Builder setSpokenInstructions(Map<String, String> spokenInstructions);
     }
 
     public static final String TYPE_KEY = "instruction";

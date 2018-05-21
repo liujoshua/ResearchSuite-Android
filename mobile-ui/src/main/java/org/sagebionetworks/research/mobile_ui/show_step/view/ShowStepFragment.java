@@ -47,7 +47,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Shows a simple step.
  */
-public class ShowStepFragment extends ShowStepFragmentBase<StepView, ShowGenericStepViewModel> {
+public class ShowStepFragment extends ShowStepFragmentBase<StepView, ShowGenericStepViewModel<StepView>> {
     private static final String ARGUMENT_STEP_VIEW = "STEP_VIEW";
 
     public static ShowStepFragment newInstance(@NonNull StepView stepView) {

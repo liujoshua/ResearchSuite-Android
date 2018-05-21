@@ -32,19 +32,26 @@
 
 package org.sagebionetworks.research.mobile_ui.show_step.view;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.google.common.base.Optional;
 
 import org.sagebionetworks.research.mobile_ui.perform_task.PerformTaskFragment;
 import org.sagebionetworks.research.mobile_ui.widget.ActionButton;
+import org.sagebionetworks.research.presentation.DisplayString;
 import org.sagebionetworks.research.presentation.model.StepView;
 import org.sagebionetworks.research.presentation.perform_task.PerformTaskViewModel;
 import org.sagebionetworks.research.presentation.show_step.ShowStepViewModel;
@@ -52,14 +59,13 @@ import org.sagebionetworks.research.presentation.show_step.ShowStepViewModelFact
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import dagger.android.support.AndroidSupportInjection;
-import javax.inject.Inject;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-public abstract class ShowStepFragmentBase<S extends StepView, VM extends ShowStepViewModel<S>> extends Fragment {
+public abstract class ShowStepFragmentBase<S extends StepView, VM extends ShowStepViewModel<? extends S>> extends Fragment {
     private static final Logger LOGGER = LoggerFactory.getLogger(ShowStepFragmentBase.class);
 
     private static final String ARGUMENT_STEP_VIEW = "STEP_VIEW";
@@ -136,6 +142,26 @@ public abstract class ShowStepFragmentBase<S extends StepView, VM extends ShowSt
         stepViewUnbinder.unbind();
     }
 
+    // TODO: make this a util
+    public void updateTextView(@NonNull TextView textView, @Nullable DisplayString displayString) {
+        if (displayString == null) {
+            textView.setVisibility(View.GONE);
+            return;
+        }
+
+        textView.setVisibility(View.VISIBLE);
+        if (displayString.getDisplayString() != null) {
+            textView.setText(displayString.getDisplayString());
+            return;
+        }
+        if (displayString.getDefaultDisplayStringRes() != null) {
+            textView.setText(displayString.getDisplayString());
+            return;
+        }
+
+        textView.setVisibility(View.INVISIBLE);
+    }
+
     @LayoutRes
     protected abstract int getLayoutId();
 
@@ -146,7 +172,23 @@ public abstract class ShowStepFragmentBase<S extends StepView, VM extends ShowSt
         LOGGER.debug("Update stepView: {}", stepView);
 
         this.stepView = stepView;
-        stepViewBinding.title.setText(this.stepView.getTitle());
-        stepViewBinding.description.setText(this.stepView.getDetail());
+
+        updateTextView(stepViewBinding.title, stepView.getTitle());
+        updateTextView(stepViewBinding.description, stepView.getDetail());
+    }
+
+    @NonNull
+    Optional<String> getStringToDisplay(@Nullable DisplayString displayString) {
+        if (displayString == null) {
+            return Optional.absent();
+        }
+        if (displayString.getDisplayString() != null) {
+            return Optional.of(displayString.getDisplayString());
+        }
+        if (displayString.getDefaultDisplayStringRes() != null) {
+            return Optional.of(this.getString(displayString.getDefaultDisplayStringRes()));
+        }
+
+        return Optional.absent();
     }
 }

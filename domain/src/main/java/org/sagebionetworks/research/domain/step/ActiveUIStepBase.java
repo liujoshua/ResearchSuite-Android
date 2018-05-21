@@ -37,6 +37,7 @@ import android.support.annotation.Nullable;
 
 import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.base.Objects;
+import com.google.common.collect.ImmutableMap;
 
 import org.sagebionetworks.research.domain.interfaces.HashCodeHelper;
 import org.sagebionetworks.research.domain.step.ui.ActiveUIStep;
@@ -53,18 +54,24 @@ public class ActiveUIStepBase extends UIStepBase implements ActiveUIStep {
     @Nullable
     private final Double duration;
 
+    private final ImmutableMap<String, String> spokenInstructions;
+
     // Gson initialize defaults
     ActiveUIStepBase() {
         super();
+        spokenInstructions = ImmutableMap.of();
         duration = null;
         backgroundAudioRequired = false;
     }
 
     public ActiveUIStepBase(@NonNull final String identifier, @NonNull final Map<String, UIAction> actions,
-            @Nullable final String title, @Nullable final String text,
-            @Nullable final String detail, @Nullable final String footnote,
+            @Nullable final String title, @Nullable final String text, @Nullable final String detail,
+            @Nullable final String footnote, @Nullable Map<String, String> spokenInstructions,
             @Nullable final Double duration, final boolean backgroundAudioRequired) {
         super(identifier, actions, title, text, detail, footnote);
+
+        this.spokenInstructions = spokenInstructions != null ? ImmutableMap.copyOf(spokenInstructions)
+                : ImmutableMap.<String, String>of();
         this.duration = duration;
         this.backgroundAudioRequired = backgroundAudioRequired;
     }
@@ -80,6 +87,12 @@ public class ActiveUIStepBase extends UIStepBase implements ActiveUIStep {
         return this.backgroundAudioRequired;
     }
 
+    @Nullable
+    @Override
+    public ImmutableMap<String, String> getSpokenInstructions() {
+        return spokenInstructions;
+    }
+
     @NonNull
     @Override
     public String getType() {
@@ -89,13 +102,14 @@ public class ActiveUIStepBase extends UIStepBase implements ActiveUIStep {
     @Override
     protected HashCodeHelper hashCodeHelper() {
         return super.hashCodeHelper()
-                .addFields(backgroundAudioRequired, duration);
+                .addFields(spokenInstructions, backgroundAudioRequired, duration);
     }
 
     @Override
     protected boolean equalsHelper(Object o) {
         ActiveUIStepBase activeStep = (ActiveUIStepBase) o;
         return super.equalsHelper(o) &&
+                Objects.equal(this.getSpokenInstructions(), activeStep.getSpokenInstructions()) &&
                 Objects.equal(this.getDuration(), activeStep.getDuration()) &&
                 Objects.equal(this.isBackgroundAudioRequired(), activeStep.isBackgroundAudioRequired());
     }
@@ -103,6 +117,7 @@ public class ActiveUIStepBase extends UIStepBase implements ActiveUIStep {
     @Override
     protected ToStringHelper toStringHelper() {
         return super.toStringHelper()
+                .add("spokenInstructions", this.getSpokenInstructions())
                 .add("duration", this.getDuration())
                 .add("isBackgroundAudioRequired", this.isBackgroundAudioRequired());
     }

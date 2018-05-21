@@ -34,7 +34,7 @@ package org.sagebionetworks.research.domain.step.ui;
 
 import android.support.annotation.Nullable;
 
-import org.threeten.bp.Duration;
+import java.util.Map;
 
 
 public interface ActiveUIStep extends UIStep {
@@ -60,7 +60,6 @@ public interface ActiveUIStep extends UIStep {
      */
     boolean isBackgroundAudioRequired();
 
-    // TODO: spoken instructions
     /**
      * Localized text that represents an instructional voice prompt. Instructional speech begins when the step passes
      * the time indicated by the given time.  If `timeInterval` is greater than or equal to `duration` or is equal to
@@ -70,4 +69,6 @@ public interface ActiveUIStep extends UIStep {
      *  instruction to speak or `nil` if there isn't an instruction.
      *  spokenInstruction(at timeInterval: TimeInterval) -> String?
      */
+    @Nullable
+    Map<String, String> getSpokenInstructions();
 }

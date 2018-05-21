@@ -32,57 +32,52 @@
 
 package org.sagebionetworks.research.presentation.model;
 
-import static java.lang.annotation.RetentionPolicy.SOURCE;
+import static org.junit.Assert.assertEquals;
 
-import android.os.Parcelable;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.os.Parcel;
 
-import com.google.common.collect.ImmutableSet;
-import com.ryanharter.auto.value.parcel.ParcelAdapter;
+import com.google.common.collect.ImmutableMap;
 
-import org.sagebionetworks.research.domain.step.Step;
+import org.junit.Test;
 import org.sagebionetworks.research.presentation.DisplayString;
-import org.sagebionetworks.research.presentation.model.parcelable.ImmutableSetAdapter;
+import org.sagebionetworks.research.presentation.model.StepView.NavDirection;
+import org.threeten.bp.Duration;
 
-import java.lang.annotation.Retention;
+public class ActiveUIStepViewTest {
 
-/**
- * Map a {@link Step} to a {@link StepView} when data is moving from the Domain layer to this layer.
- */
-public interface StepView extends Parcelable {
-    class ImmutableStepActionViewSetAdapter extends ImmutableSetAdapter<StepActionView> {
-        @Override
-        protected Creator<? extends StepActionView> getCreator() {
-            return AutoValue_StepActionView.CREATOR;
-        }
-
-        @Override
-        protected StepActionView[] getEmptyArray() {
-            return new StepActionView[0];
-        }
+    @Test(expected = IllegalStateException.class)
+    public void testBuildFailsWIthNoId() {
+        ActiveUIStepView.builder()
+                .build();
     }
 
-    @Retention(SOURCE)
-    @IntDef({NavDirection.SHIFT_LEFT, NavDirection.SHIFT_RIGHT})
-    @interface NavDirection {
-        int SHIFT_LEFT = 1;
-        int SHIFT_RIGHT = -1;
+    @Test
+    public void testBuildSucceedsWithOnlyIdProvided() {
+        ActiveUIStepView.builder()
+                .setIdentifier("id")
+                .build();
     }
 
-    @Nullable
-    DisplayString getDetail();
+    @Test
+    public void testParcelable() {
+        ActiveUIStepView activeUIStepView = ActiveUIStepView.builder()
+                .setIdentifier("id")
+                .setDetail(DisplayString.create("detail", 5))
+                .setNavDirection(NavDirection.SHIFT_RIGHT)
+//                .setStepActionViews(ImmutableSet.of(
+//                        StepActionView.create(ActionType.FORWARD, 0,
+//                                DisplayString.create("forward", R.string.rs2_navigation_action_forward), true, true)))
+                .setTitle(DisplayString.create("title", 10))
+                .setDuration(Duration.ofSeconds(30))
+                .setSpokenInstructions(ImmutableMap.of(1L, DisplayString.create("text1", 9)))
+                .build();
 
-    @NonNull
-    String getIdentifier();
+        Parcel parcel = Parcel.obtain();
+        activeUIStepView.writeToParcel(parcel, activeUIStepView.describeContents());
+        parcel.setDataPosition(0);
 
-    int getNavDirection();
+        ActiveUIStepView createdFromParcel = AutoValue_ActiveUIStepView.CREATOR.createFromParcel(parcel);
 
-    @NonNull
-    @ParcelAdapter(ImmutableStepActionViewSetAdapter.class)
-    ImmutableSet<StepActionView> getStepActionViews();
-
-    @Nullable
-    DisplayString getTitle();
+        assertEquals(activeUIStepView, createdFromParcel);
+    }
 }
