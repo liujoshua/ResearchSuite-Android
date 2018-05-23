@@ -40,7 +40,7 @@ import com.google.common.collect.ImmutableMap;
 import com.ryanharter.auto.value.parcel.ParcelAdapter;
 
 import org.sagebionetworks.research.presentation.DisplayString;
-import org.sagebionetworks.research.presentation.model.parcelable.LongToDisplayStringAdapter;
+import org.sagebionetworks.research.presentation.model.parcelable.DurationToDisplayStringMapAdapter;
 import org.threeten.bp.Duration;
 
 import java.util.Collections;
@@ -62,7 +62,7 @@ public abstract class ActiveUIStepView implements StepView {
 
         public abstract Builder setNavDirection(@NavDirection int navDirection);
 
-        public abstract Builder setSpokenInstructions(@NonNull Map<Long, DisplayString> spokenInstructions);
+        public abstract Builder setSpokenInstructions(@NonNull Map<Duration, DisplayString> spokenInstructions);
 
         public abstract Builder setStepActionViews(@NonNull Set<StepActionView> stepActionViews);
 
@@ -79,19 +79,12 @@ public abstract class ActiveUIStepView implements StepView {
                 .setStepActionViews(Collections.emptySet());
     }
 
-//    public static ActiveUIStepView create(@NonNull String identifier, @Nullable DisplayString detail,
-//            int navDirection, @NonNull Set<StepActionView> stepActionViews, @Nullable DisplayString title,
-//            @Nullable Duration duration, @NonNull Map<Long, DisplayString> spokenInstructions) {
-//        return new AutoValue_ActiveUIStepView(detail, identifier, navDirection, ImmutableSet.copyOf(stepActionViews),
-//                title, duration, ImmutableMap.copyOf(spokenInstructions));
-//    }
-
     @Nullable
     public abstract Duration getDuration();
 
     @NonNull
-    @ParcelAdapter(LongToDisplayStringAdapter.class)
-    public abstract ImmutableMap<Long, DisplayString> getSpokenInstructions();
+    @ParcelAdapter(DurationToDisplayStringMapAdapter.class)
+    public abstract ImmutableMap<Duration, DisplayString> getSpokenInstructions();
 
     public abstract Builder toBuilder();
 }

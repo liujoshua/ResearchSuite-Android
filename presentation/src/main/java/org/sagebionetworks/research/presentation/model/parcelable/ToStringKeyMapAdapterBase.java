@@ -30,48 +30,43 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.sagebionetworks.research.presentation.mapper;
+package org.sagebionetworks.research.presentation.model.parcelable;
 
-import android.support.annotation.Nullable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import com.google.common.base.Function;
-
-import org.sagebionetworks.research.domain.step.Step;
-import org.sagebionetworks.research.domain.step.ui.ActiveUIStep;
-import org.sagebionetworks.research.presentation.model.ActiveUIStepView;
-import org.sagebionetworks.research.presentation.model.BaseStepView;
-import org.sagebionetworks.research.presentation.model.StepView;
+import com.google.common.collect.ImmutableMap;
+import com.ryanharter.auto.value.parcel.TypeAdapter;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.inject.Inject;
+public abstract class ToStringKeyMapAdapterBase<K, V extends Parcelable> implements TypeAdapter<ImmutableMap<K, V>> {
+    @Override
+    public ImmutableMap<K, V> fromParcel(final Parcel in) {
+        Map<String, V> map = new HashMap<>();
+        in.readMap(map, getClass().getClassLoader());
 
-public class StepMapper implements Function<Step, StepView> {
-    @Inject
-    public StepMapper() {
+        Map<K, V> outputMap = new HashMap<>();
+        for (Entry<String, V> entry : map.entrySet()) {
+            outputMap.put(fromString(entry.getKey()), entry.getValue());
+        }
+        return ImmutableMap.copyOf(outputMap);
     }
 
     @Override
-    @Nullable
-    public StepView apply(@Nullable Step input) {
-        if (input == null) {
-            return null;
+    public void toParcel(final ImmutableMap<K, V> value, final Parcel dest) {
+        Map<String, V> stringMap = new HashMap<>();
+        for (Entry<K, V> e : value.entrySet()) {
+            stringMap.put(e.getKey().toString(), e.getValue());
         }
-        return BaseStepView.builder()
-                .setIdentifier(input.getIdentifier())
-                .build();
+        dest.writeMap(stringMap);
     }
 
-    ActiveUIStepView apply(ActiveUIStep input) {
-        ActiveUIStepView.Builder builder = ActiveUIStepView.builder()
-                .setIdentifier(input.getIdentifier());
+    public abstract K fromString(String stringKey);
 
-        Map<Long, String> spokenInstructions = new HashMap<>();
-        for (Entry<String, String> entry : input.getSpokenInstructions().entrySet()) {
-        }
-
-        return builder.build();
+    public String toStringKey(K key) {
+        return key.toString();
     }
 }

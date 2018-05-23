@@ -104,12 +104,14 @@ public class ShowActiveUIStepViewModel<S extends ActiveUIStepView> extends ShowG
 
     @VisibleForTesting
     Observable<DisplayString> getSpokenInstructionsObservable() {
-        Map<Long, DisplayString> spokenInstructions = stepView.getSpokenInstructions();
-        if (spokenInstructions == null) {
-            return Observable.empty();
-        }
-        return Observable.interval(1, TimeUnit.SECONDS)
-                .map(spokenInstructions::get)
-                .filter(spokenInstruction -> spokenInstruction != null);
+        return Observable.empty();
+
+//        Map<Long, DisplayString> spokenInstructions = stepView.getSpokenInstructions();
+//        if (spokenInstructions == null) {
+//            return Observable.empty();
+//        }
+//        return Observable.interval(1, TimeUnit.SECONDS)
+//                .map(spokenInstructions::get)
+//                .filter(spokenInstruction -> spokenInstruction != null);
     }
 }

@@ -30,48 +30,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.sagebionetworks.research.presentation.mapper;
+package org.sagebionetworks.research.presentation.model.parcelable;
 
-import android.support.annotation.Nullable;
+import org.sagebionetworks.research.presentation.DisplayString;
+import org.threeten.bp.Duration;
 
-import com.google.common.base.Function;
-
-import org.sagebionetworks.research.domain.step.Step;
-import org.sagebionetworks.research.domain.step.ui.ActiveUIStep;
-import org.sagebionetworks.research.presentation.model.ActiveUIStepView;
-import org.sagebionetworks.research.presentation.model.BaseStepView;
-import org.sagebionetworks.research.presentation.model.StepView;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.inject.Inject;
-
-public class StepMapper implements Function<Step, StepView> {
-    @Inject
-    public StepMapper() {
-    }
-
+public class DurationToDisplayStringMapAdapter extends ToStringKeyMapAdapterBase<Duration, DisplayString> {
     @Override
-    @Nullable
-    public StepView apply(@Nullable Step input) {
-        if (input == null) {
-            return null;
-        }
-        return BaseStepView.builder()
-                .setIdentifier(input.getIdentifier())
-                .build();
-    }
-
-    ActiveUIStepView apply(ActiveUIStep input) {
-        ActiveUIStepView.Builder builder = ActiveUIStepView.builder()
-                .setIdentifier(input.getIdentifier());
-
-        Map<Long, String> spokenInstructions = new HashMap<>();
-        for (Entry<String, String> entry : input.getSpokenInstructions().entrySet()) {
-        }
-
-        return builder.build();
+    public Duration fromString(final String string) {
+        return Duration.parse(string);
     }
 }

@@ -34,6 +34,8 @@ package org.sagebionetworks.research.presentation.model;
 
 import static org.junit.Assert.assertEquals;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import android.os.Parcel;
 
 import com.google.common.collect.ImmutableMap;
@@ -42,6 +44,9 @@ import org.junit.Test;
 import org.sagebionetworks.research.presentation.DisplayString;
 import org.sagebionetworks.research.presentation.model.StepView.NavDirection;
 import org.threeten.bp.Duration;
+import org.threeten.bp.temporal.TemporalUnit;
+
+import java.util.concurrent.TimeUnit;
 
 public class ActiveUIStepViewTest {
 
@@ -69,7 +74,7 @@ public class ActiveUIStepViewTest {
 //                                DisplayString.create("forward", R.string.rs2_navigation_action_forward), true, true)))
                 .setTitle(DisplayString.create("title", 10))
                 .setDuration(Duration.ofSeconds(30))
-                .setSpokenInstructions(ImmutableMap.of(1L, DisplayString.create("text1", 9)))
+                .setSpokenInstructions(ImmutableMap.of(Duration.ofSeconds(1), DisplayString.create("text1", 9)))
                 .build();
 
         Parcel parcel = Parcel.obtain();
