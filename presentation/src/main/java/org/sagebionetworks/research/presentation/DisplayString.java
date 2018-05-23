@@ -48,6 +48,7 @@ public abstract class DisplayString implements Parcelable {
 
     // resource id for string to display
     @StringRes
+    @Nullable
     public abstract Integer getDefaultDisplayStringRes();
 
     // string to display, overrides defaultDisplayStringRes

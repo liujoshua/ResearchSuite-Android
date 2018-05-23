@@ -30,47 +30,48 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.sagebionetworks.research.domain.step.ui;
+package org.sagebionetworks.research.presentation.util;
 
-import android.support.annotation.Nullable;
+import static org.junit.Assert.assertEquals;
+
+import com.google.common.collect.ImmutableMap;
+
+import org.junit.Test;
+import org.sagebionetworks.research.presentation.DisplayString;
+import org.threeten.bp.Duration;
 
 import java.util.Map;
 
+public class SpokenInstructionUtilTest {
+    private final ImmutableMap<String, String> INPUT_MAP = ImmutableMap.<String, String>builder()
+            .put("halfway", "Halfway text")
+            .put("countdown", "3")
+            .put("2", "Text at 2")
+            .put("5.5", "Text at 5.5")
+            .put("999", "Text at 999")
+            .build();
 
-public interface ActiveUIStep extends UIStep {
-    enum SpokenInstructionKey {
-        start, halfway, countdown, end
+    @Test
+    public void convert_NullStepDuration() {
+        Map<Duration, DisplayString> result = SpokenInstructionUtil.convert(null, INPUT_MAP);
+        assertEquals(3, result.size());
     }
 
-    /**
-     * The duration of time in seconds to run the step. If null, then this value is ignored.
-     *
-     * @return step duration in seconds
-     */
-    @Nullable
-    Double getDuration();
+    @Test
+    public void convert_StepDuration() {
+        Duration stepDuration = Duration.ofSeconds(10);
+        Map<Duration, DisplayString> result = SpokenInstructionUtil.convert(stepDuration, INPUT_MAP);
+        assertEquals(7, result.size());
+        assertEquals("Text at 999", result.get(stepDuration).getDisplayString());
+    }
 
-    /**
-     * The set of commands to apply to this active step. These indicate actions to fire at the beginning and end of
-     * the step such as playing a sound as well as whether or not to automatically start and finish the step.
-     */
-    // TODO: commands
+    @Test
+    public void convert_StepDurationConflict() {
+        Map<Duration, DisplayString> result = SpokenInstructionUtil.convert(Duration.ofSeconds(6), INPUT_MAP);
+        assertEquals(0, result.size());
+    }
 
-    /**
-     * Localized text that represents an instructional voice prompt. Instructional speech begins when the step passes
-     * the time indicated by the given time.  If `timeInterval` is greater than or equal to `duration` or is equal to
-     * `Double.infinity`, then the spoken instruction returned should be for when the step is finished. - parameter
-     * timeInterval: The time interval at which to speak the instruction. - returns: The localized instruction to
-     * speak or `nil` if there isn't an instruction. spokenInstruction(at timeInterval: TimeInterval) -> String?
-     */
-    @Nullable
-    Map<String, String> getSpokenInstructions();
-
-    /**
-     * Whether or not the step uses audio, such as the speech synthesizer, that should play whether or not the user
-     * has the mute switch turned on.
-     *
-     * @return whether the step requires background audio
-     */
-    boolean isBackgroundAudioRequired();
+    @Test
+    public void convertEntry() {
+    }
 }
