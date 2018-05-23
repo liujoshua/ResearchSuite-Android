@@ -43,7 +43,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
 import com.google.common.collect.Sets;
 
-import org.sagebionetworks.research.domain.step.ui.ActiveUIStep.SpokenInstructionKey;
+import org.sagebionetworks.research.domain.step.interfaces.ActiveUIStep.SpokenInstructionKey;
 import org.sagebionetworks.research.presentation.DisplayString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -32,40 +32,27 @@
 
 package org.sagebionetworks.research.presentation.mapper;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 
 import com.google.common.base.Function;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSet.Builder;
 
-import org.sagebionetworks.research.domain.step.Step;
-import org.sagebionetworks.research.domain.step.ui.ActiveUIStep;
-import org.sagebionetworks.research.domain.step.ui.ActiveUIStep.SpokenInstructionKey;
-import org.sagebionetworks.research.presentation.DisplayString;
+import org.sagebionetworks.research.domain.step.interfaces.ActiveUIStep;
+import org.sagebionetworks.research.domain.step.interfaces.Step;
 import org.sagebionetworks.research.presentation.model.ActiveUIStepView;
 import org.sagebionetworks.research.presentation.model.BaseStepView;
 import org.sagebionetworks.research.presentation.model.StepView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.threeten.bp.Duration;
-import org.threeten.bp.format.DateTimeParseException;
 
-import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import javax.inject.Inject;
 
 public class StepMapper implements Function<Step, StepView> {
     private static final Logger LOGGER = LoggerFactory.getLogger(StepMapper.class);
-
 
 
     @Inject

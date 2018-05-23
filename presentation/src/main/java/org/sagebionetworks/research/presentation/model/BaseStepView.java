@@ -39,9 +39,7 @@ import android.support.annotation.Nullable;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 
-import org.sagebionetworks.research.domain.step.Step;
 import org.sagebionetworks.research.presentation.DisplayString;
-
 import java.util.Collections;
 import java.util.Set;
 

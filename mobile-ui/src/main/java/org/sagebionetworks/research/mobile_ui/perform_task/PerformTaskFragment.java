@@ -48,7 +48,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.sagebionetworks.research.domain.mobile_ui.R;
-import org.sagebionetworks.research.domain.result.TaskResult;
+import org.sagebionetworks.research.domain.result.implementations.TaskResultBase;
+import org.sagebionetworks.research.domain.result.interfaces.TaskResult;
 import org.sagebionetworks.research.mobile_ui.show_step.view.ShowStepFragmentBase;
 import org.sagebionetworks.research.mobile_ui.show_step.view.ShowStepFragmentFactory;
 import org.sagebionetworks.research.presentation.model.StepView;
@@ -142,8 +143,7 @@ public class PerformTaskFragment extends Fragment implements HasSupportFragmentI
             taskRunParcelableUuid = new ParcelUuid(UUID.randomUUID());
         }
 
-        TaskResult taskResult = TaskResult.builder(taskView.getIdentifier(), UUID.randomUUID(), Instant.now())
-                .setIdentifier("taskId").build();
+        TaskResult taskResult = new TaskResultBase("taskID", Instant.now(), UUID.randomUUID());
         performTaskViewModel = ViewModelProviders
                 .of(this, taskViewModelFactory.create(taskView, taskRunParcelableUuid.getUuid()))
                 .get(PerformTaskViewModel.class);

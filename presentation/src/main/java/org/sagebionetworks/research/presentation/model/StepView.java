@@ -42,10 +42,8 @@ import android.support.annotation.Nullable;
 import com.google.common.collect.ImmutableSet;
 import com.ryanharter.auto.value.parcel.ParcelAdapter;
 
-import org.sagebionetworks.research.domain.step.Step;
 import org.sagebionetworks.research.presentation.DisplayString;
 import org.sagebionetworks.research.presentation.model.parcelable.ImmutableSetAdapter;
-
 import java.lang.annotation.Retention;
 
 /**

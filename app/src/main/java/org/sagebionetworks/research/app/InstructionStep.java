@@ -40,7 +40,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 
-import org.sagebionetworks.research.domain.step.ui.ActiveUIStep;
+import org.sagebionetworks.research.domain.step.StepType;
+import org.sagebionetworks.research.domain.step.interfaces.ActiveUIStep;
 import org.sagebionetworks.research.domain.step.ui.UIAction;
 
 import java.util.Map;
@@ -95,7 +96,7 @@ public abstract class InstructionStep implements ActiveUIStep {
     @NonNull
     @Override
     public final String getType() {
-        return TYPE_KEY;
+        return StepType.INSTRUCTION;
     }
 
     @NonNull
