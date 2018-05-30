@@ -32,7 +32,6 @@
 
 package org.sagebionetworks.research.domain.step.ui.theme;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
@@ -45,7 +44,7 @@ public abstract class ImageTheme {
 
         public abstract Builder setColorPlacement(ColorPlacement colorPlacement);
 
-        public abstract Builder setImageIdentifier(@NonNull String imageIdentifier);
+        public abstract Builder setImageResource(int imageResource);
     }
 
     public static Builder builder() {
@@ -58,7 +57,7 @@ public abstract class ImageTheme {
     @Nullable
     public abstract ColorPlacement getColorPlacement();
 
-    public abstract String getImageIdentifier();
+    public abstract int getImageResource();
 
     public abstract Builder toBuilder();
 }

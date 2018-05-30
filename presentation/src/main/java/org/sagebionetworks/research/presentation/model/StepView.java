@@ -75,7 +75,7 @@ public interface StepView extends Parcelable {
     @NonNull
     String getIdentifier();
 
-    int getNavDirection();
+    @NavDirection int getNavDirection();
 
     @NonNull
     @ParcelAdapter(ImmutableStepActionViewSetAdapter.class)

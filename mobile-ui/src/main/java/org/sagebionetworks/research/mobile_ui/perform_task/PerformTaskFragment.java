@@ -50,6 +50,7 @@ import android.view.ViewGroup;
 import org.sagebionetworks.research.domain.mobile_ui.R;
 import org.sagebionetworks.research.domain.result.implementations.TaskResultBase;
 import org.sagebionetworks.research.domain.result.interfaces.TaskResult;
+import org.sagebionetworks.research.mobile_ui.mapper.StepMapper;
 import org.sagebionetworks.research.mobile_ui.show_step.view.ShowStepFragmentBase;
 import org.sagebionetworks.research.mobile_ui.show_step.view.ShowStepFragmentFactory;
 import org.sagebionetworks.research.presentation.model.StepView;

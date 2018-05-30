@@ -230,6 +230,8 @@ public class PerformTaskViewModel extends ViewModel {
     void handleTaskResultFound(TaskResult taskResult) {
         LOGGER.debug("Loaded taskResult: {}", taskResult);
 
+        this.taskResult = taskResult;
+
         taskResultLiveData.setValue(taskResult);
     }
 
@@ -256,8 +258,6 @@ public class PerformTaskViewModel extends ViewModel {
 
     @VisibleForTesting
     void taskInitSuccess() {
-        checkState(taskResult != null, "taskResultBuilder must be set before taskInitSuccess is called");
-
         goForward();
     }
 }

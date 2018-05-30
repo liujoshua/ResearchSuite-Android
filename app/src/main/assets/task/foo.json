@@ -116,17 +116,6 @@
       }
     },
     {
-      "identifier": "countdownStep",
-      "type": "countdown",
-      "title": "It's the Final Countdown",
-      "text": "Some text.",
-      "duration": 5,
-      "commands": [
-        "vibrate",
-        "transitionAutomatically"
-      ]
-    },
-    {
       "identifier": "movingStep",
       "type": "active",
       "title": "Active Step",
