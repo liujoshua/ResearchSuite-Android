@@ -30,22 +30,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.sagebionetworks.research.mobile_ui.show_step.view;
+package org.sagebionetworks.research.mobile_ui.show_step.view.view_binding;
 
-import android.widget.TextView;
+import org.sagebionetworks.research.mobile_ui.widget.NavigationActionBar.ActionButtonClickListener;
+import org.sagebionetworks.research.presentation.model.StepView;
 
-import org.sagebionetworks.research.domain.mobile_ui.R2;
-import org.sagebionetworks.research.mobile_ui.widget.NavigationActionBar;
+public interface StepViewBinding {
+    /**
+     * Sets the ActionButtonClickListener to the given listener on all of the components that can handle a
+     * listener. Subclasses which add more ActionButtons should override this method.
+     * @param actionButtonClickListener The new listener to use for all of the components that can handle one.
+     */
+    void setActionButtonClickListener(ActionButtonClickListener actionButtonClickListener);
 
-import butterknife.BindView;
-
-public class StepViewBinding {
-    @BindView(R2.id.description)
-    public TextView description;
-
-    @BindView(R2.id.rs2_step_navigation_action_bar)
-    public NavigationActionBar navigationActionBar;
-
-    @BindView(R2.id.title)
-    public TextView title;
+    /**
+     * Updates the components of this binding, with the data from the given StepView.
+     * @param stepView The StepView to get the data from for the update.
+     */
+    void update(StepView stepView);
 }

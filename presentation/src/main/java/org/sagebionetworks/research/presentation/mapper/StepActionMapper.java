@@ -73,11 +73,11 @@ public class StepActionMapper {
                                 .create(stepNavigationAction.title, R.string.rs2_navigation_action_backward));
                         builder.setActionType(ActionType.BACKWARD);
                         break;
-                    case LEARN_MORE:
-                        builder.setTitle(DisplayString
-                                .create(stepNavigationAction.title, R.string.rs2_navigation_action_lean_more));
-                        builder.setActionType(ActionType.LEARN_MORE);
-                        break;
+//                    case LEARN_MORE:
+//                        builder.setTitle(DisplayString
+//                                .create(stepNavigationAction.title, R.string.rs2_navigation_action_lean_more));
+//                        builder.setActionType(ActionType.LEARN_MORE);
+//                        break;
                     // TODO: implement other actions
                 }
         }

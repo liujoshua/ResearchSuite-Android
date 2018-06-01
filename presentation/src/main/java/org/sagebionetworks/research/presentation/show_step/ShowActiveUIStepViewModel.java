@@ -92,6 +92,7 @@ public class ShowActiveUIStepViewModel<S extends ActiveUIStepView> extends ShowG
 
     @VisibleForTesting
     Observable<Long> getCountdownObservable() {
+        // TODO: countdown based on spokenInstructions, allowing for fractional duration
         Duration duration = stepView.getDuration();
         if (duration == null) {
             return Observable.never();
