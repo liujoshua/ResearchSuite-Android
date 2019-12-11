@@ -5,6 +5,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.SystemClock;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
@@ -29,38 +30,56 @@ import io.reactivex.functions.BiFunction;
 /**
  * Created by TheMDP on 2/5/17.
  * <p>
- * The DeviceMotionUtil incorporates a bunch of sensor fusion sensor readings
- * together to paint a broad picture of the device's orientation and movement over time.
+ * The DeviceMotionUtil incorporates a bunch of sensor fusion sensor readings together to paint a broad picture of the
+ * device's orientation and movement over time.
  * <p>
  * This class is an attempt at recording data in a similar way as iOS' device motion recorder.
  *
  * @see <a href="https://developer.android.com/reference/android/hardware/SensorEvent.html#values">
- * Sensor values</a>
+ *         Sensor values</a>
  * @see <a href="https://source.android.com/devices/sensors/sensor-type">Sensor Types</a>
  * @see <a href="https://developer.android.com/guide/topics/sensors/sensors_position.html">
- * Position Sensors</a>
+ *         Position Sensors</a>
  * @see <a href="https://developer.android.com/guide/topics/sensors/sensors_motion.html">
- * Motion Sensors</a>
+ *         Motion Sensors</a>
  */
 public final class DeviceMotionUtil {
     public static final float GRAVITY_SI_CONVERSION = SensorManager.GRAVITY_EARTH;
+
     public static final String SENSOR_DATA_TYPE_KEY = "sensorType";
+
     public static final String SENSOR_DATA_SUBTYPE_KEY = "sensorAndroidType";
+
     public static final String SENSOR_EVENT_ACCURACY_KEY = "eventAccuracy";
+
     public static final Map<Integer, String> SENSOR_TYPE_TO_DATA_TYPE;
+
     public static final Set<Integer> ROTATION_VECTOR_TYPES;
+
     public static final String ROTATION_REFERENCE_COORDINATE_KEY = "referenceCoordinate";
+
     public static final String X_KEY = "x";
+
     public static final String Y_KEY = "y";
+
     public static final String Z_KEY = "z";
+
     public static final String W_KEY = "w";
+
     public static final String ACCURACY_KEY = "estimatedAccuracy";
+
     public static final String X_UNCALIBRATED_KEY = "xUncalibrated";
+
     public static final String Y_UNCALIBRATED_KEY = "yUncalibrated";
+
     public static final String Z_UNCALIBRATED_KEY = "zUncalibrated";
+
     public static final String X_BIAS_KEY = "xBias";
+
     public static final String Y_BIAS_KEY = "yBias";
+
     public static final String Z_BIAS_KEY = "zBias";
+
     public static final Map<Integer, Class<? extends SensorEventPOJO>> SENSOR_TYPE_TO_EVENT_POJO =
             new ImmutableMap.Builder<Integer, Class<? extends SensorEventPOJO>>()
                     .put(Sensor.TYPE_ACCELEROMETER, AccelerationEventPojo.class)
@@ -75,7 +94,9 @@ public final class DeviceMotionUtil {
                     .put(Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR, RotationEventPojo.class)
                     .put(Sensor.TYPE_ROTATION_VECTOR, RotationEventPojo.class)
                     .build();
-    public static final Map<Integer, BiFunction<SensorEvent, Double, ? extends SensorEventPOJO>> SENSOR_TYPE_TO_FACTORY =
+
+    public static final Map<Integer, BiFunction<SensorEvent, Double, ? extends SensorEventPOJO>>
+            SENSOR_TYPE_TO_FACTORY =
             new ImmutableMap.Builder<Integer, BiFunction<SensorEvent, Double, ? extends SensorEventPOJO>>()
                     .put(Sensor.TYPE_ACCELEROMETER, AccelerationEventPojo::create)
                     .put(Sensor.TYPE_GRAVITY, AccelerationEventPojo::create)
@@ -135,8 +156,10 @@ public final class DeviceMotionUtil {
     }
 
     /**
-     * @param availableSensorList the list of available sensors
-     * @param sensorType          the sensor type to check if it is contained in the list
+     * @param availableSensorList
+     *         the list of available sensors
+     * @param sensorType
+     *         the sensor type to check if it is contained in the list
      * @return true if that sensor type is available, false if it is not
      */
     static boolean hasAvailableType(List<Sensor> availableSensorList, int sensorType) {
@@ -247,7 +270,7 @@ public final class DeviceMotionUtil {
 
     /**
      * @see <a href="https://source.android.com/devices/sensors/sensor-types#accelerometer">
-     * Sensor Types: Accelerometer</a>
+     *         Sensor Types: Accelerometer</a>
      */
     @VisibleForTesting
     void recordAccelerometerEvent(SensorEvent sensorEvent, JsonObject jsonObject) {
@@ -258,7 +281,7 @@ public final class DeviceMotionUtil {
 
     /**
      * @see <a href="https://source.android.com/devices/sensors/sensor-types#linear_acceleration">
-     * Sensor Types: Accelerometer</a>
+     *         Sensor Types: Accelerometer</a>
      */
     @VisibleForTesting
     void recordLinearAccelerometerEvent(SensorEvent sensorEvent, JsonObject jsonObject) {
@@ -272,7 +295,7 @@ public final class DeviceMotionUtil {
      * Direction and magnitude of gravity.
      *
      * @see <a href="https://source.android.com/devices/sensors/sensor-types#gravity">
-     * Sensor Types: Gravity </a>
+     *         Sensor Types: Gravity </a>
      */
     @VisibleForTesting
     void recordGravityEvent(SensorEvent sensorEvent, JsonObject jsonObject) {
@@ -282,15 +305,14 @@ public final class DeviceMotionUtil {
     }
 
     /**
-     * Sensor.TYPE_ROTATION_VECTOR relative to East-North-Up coordinate frame.
-     * Sensor.TYPE_GAME_ROTATION_VECTOR  no magnetometer
-     * Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR similar to a rotation vector sensor but using a
+     * Sensor.TYPE_ROTATION_VECTOR relative to East-North-Up coordinate frame. Sensor.TYPE_GAME_ROTATION_VECTOR  no
+     * magnetometer Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR similar to a rotation vector sensor but using a
      * magnetometer and no gyroscope
      *
      * @see <a href="https://source.android.com/devices/sensors/sensor-types#attitude_composite_sensors">
-     * https://source.android.com/devices/sensors/sensor-types#rotation_vector
-     * https://source.android.com/devices/sensors/sensor-types#game_rotation_vector
-     * https://source.android.com/devices/sensors/sensor-types#geomagnetic_rotation_vector
+     *         https://source.android.com/devices/sensors/sensor-types#rotation_vector
+     *         https://source.android.com/devices/sensors/sensor-types#game_rotation_vector
+     *         https://source.android.com/devices/sensors/sensor-types#geomagnetic_rotation_vector
      */
     @VisibleForTesting
     void recordRotationVector(SensorEvent sensorEvent, JsonObject jsonObject) {
@@ -361,25 +383,34 @@ public final class DeviceMotionUtil {
 
     public static class SensorEventPOJO {
         private static int SECONDS_TO_NANOS = 1_000_000_000;
-        // ISO-8601 timestamp for the uptime zero
+
         @Nullable
         public final Sensor sensor;
+
         @Nullable
+        // ISO-8601 for the first sensorEvent's timestamp, which is then used as the zero for the relative timestamp
+        // of subsequent SensorEventPojo
         public final Instant timestampDate;
+
         public final String sensorType;
-        // timestamp in seconds
+
+        // relative timestamp in seconds. seconds elapsed since first recorded event
         public final double timestamp;
-        // uptime in seconds
+
+        // system uptime in seconds
         public final double uptime;
+
         public int eventAccuracy;
 
         /**
-         * @param event                     sensor event
-         * @param referenceTimestampSeconds uptime zero in nanos from epoch
+         * @param event
+         *         sensor event
+         * @param referenceUptimeSeconds
+         *         uptime zero in nanos from epoch
          */
-        public SensorEventPOJO(SensorEvent event, double referenceTimestampSeconds) {
+        public SensorEventPOJO(SensorEvent event, double referenceUptimeSeconds) {
             uptime = (double) event.timestamp / SECONDS_TO_NANOS;
-            timestamp = uptime - referenceTimestampSeconds;
+            timestamp = uptime - referenceUptimeSeconds;
             sensorType = SENSOR_TYPE_TO_DATA_TYPE.get(event.sensor.getType());
             timestampDate = null;
             sensor = null;
@@ -388,7 +419,7 @@ public final class DeviceMotionUtil {
         // used to log initial event, contains more data about sensor and reference for subsequent events
         public SensorEventPOJO(SensorEvent event) {
             uptime = (double) event.timestamp / SECONDS_TO_NANOS;
-            timestampDate = uptimeZero();
+            timestampDate = instantOf(event.timestamp);
             timestamp = 0;
             sensorType = SENSOR_TYPE_TO_DATA_TYPE.get(event.sensor.getType());
             sensor = event.sensor;
@@ -399,23 +430,23 @@ public final class DeviceMotionUtil {
         }
 
         /**
-         * @return instant of system uptime zero
+         * @param sensorTimestamp
+         *         sensor timestamp
+         * @return instant corresponding to sensor timestamp
          */
         @NonNull
-        public static Instant uptimeZero() {
-            return Instant.now().minus(SystemClock.elapsedRealtimeNanos(), ChronoUnit.NANOS);
-        }
-
-        public static Instant timestampToInstant(long timestamp) {
-            // record date equivalent of timestamp reference---------------------------------------------------------------------
-            return uptimeZero().plus(timestamp, ChronoUnit.NANOS);
+        public static Instant instantOf(long sensorTimestamp) {
+            return Instant.now().minus(SystemClock.elapsedRealtimeNanos() - sensorTimestamp, ChronoUnit.NANOS);
         }
     }
 
     public static class AccelerationEventPojo extends SensorEventPOJO {
         public final double x;
+
         public final double y;
+
         public final double z;
+
         public final String unit = "g";
 
         public AccelerationEventPojo(SensorEvent sensorEvent, double referenceTimestampNanos) {
@@ -432,8 +463,11 @@ public final class DeviceMotionUtil {
 
     public static class GyroscopeEventPOJO extends SensorEventPOJO {
         public final double x;
+
         public final double y;
+
         public final double z;
+
         public final String unit = "rad/s";
 
         public GyroscopeEventPOJO(SensorEvent sensorEvent, double referenceTimestampNanos) {
@@ -450,8 +484,11 @@ public final class DeviceMotionUtil {
 
     public static class MagneticEventPojo extends SensorEventPOJO {
         public final double x;
+
         public final double y;
+
         public final double z;
+
         public final String unit = "uT";
 
         public MagneticEventPojo(SensorEvent sensorEvent, double referenceTimestampNanos) {
@@ -469,12 +506,18 @@ public final class DeviceMotionUtil {
     public static class RotationEventPojo extends SensorEventPOJO {
         @Nullable
         public final String referenceCoordinate;
+
         @Nullable
         public final String sensorAndroidType;
+
         public final double x;
+
         public final double y;
+
         public final double z;
+
         public final double w;
+
         public double estimatedAccuracy;
 
         public RotationEventPojo(SensorEvent event, double referenceTimestampNanos) {
@@ -514,10 +557,15 @@ public final class DeviceMotionUtil {
 
     public static class UncalibratedEventPOJO extends SensorEventPOJO {
         public final double xUncalibrated;
+
         public final double xBias;
+
         public final double yUncalibrated;
+
         public final double yBias;
+
         public final double zUncalibrated;
+
         public final double zBias;
 
         public UncalibratedEventPOJO(SensorEvent event, double referenceTimestampNanos) {

@@ -100,6 +100,10 @@ public abstract class RecorderModule {
     @Provides
     @IntoMap
     @StringKey(RecorderType.MOTION)
+    /**
+     * TODO: Currently, sensor metadata is recorded, but only for the first sensor event from the Flowable.
+     * We should be collecting sensorTypes and writing metadata before merging the sensor event Flowables
+     */
     static RecorderFactory provideMotionJsonRecorderFactory(Context context, Gson gson,
                                                             SensorSourceFactory sensorSourceFactory) {
         return (recorderConfiguration, taskUUID) -> {
